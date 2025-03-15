@@ -1,13 +1,13 @@
+
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { 
   Tabs, 
   TabsContent, 
   TabsList, 
   TabsTrigger 
 } from "@/components/ui/tabs";
-import { Check, ChevronsUpDown, Search, Sparkles, Code, MessageSquare } from "lucide-react";
+import { Check, ChevronsUpDown, Sparkles, Code, MessageSquare, Terminal, Laptop, Bot } from "lucide-react";
 import {
   Command,
   CommandEmpty,
@@ -27,26 +27,58 @@ interface Model {
   name: string;
   description: string;
   icon: React.ReactNode;
+  supportsImages?: boolean;
 }
 
 const models: Model[] = [
   {
     id: "gemini",
     name: "Gemini",
-    description: "The most capable Gemini model.",
+    description: "Google's most capable multimodal model.",
     icon: <Sparkles className="h-5 w-5" />,
+    supportsImages: true
   },
   {
     id: "llama2",
     name: "Llama 2",
-    description: "A powerful open-source language model.",
+    description: "Meta's powerful open-source language model.",
     icon: <MessageSquare className="h-5 w-5" />,
+    supportsImages: false
+  },
+  {
+    id: "mistral",
+    name: "Mistral",
+    description: "Fast and efficient language model.",
+    icon: <Bot className="h-5 w-5" />,
+    supportsImages: false
+  },
+  {
+    id: "gemma",
+    name: "Gemma",
+    description: "Google's lightweight and efficient model.",
+    icon: <Terminal className="h-5 w-5" />,
+    supportsImages: false
+  },
+  {
+    id: "deepseek",
+    name: "DeepSeek Chat",
+    description: "Advanced conversation model.",
+    icon: <MessageSquare className="h-5 w-5" />,
+    supportsImages: false
   },
   {
     id: "deepseek-coder",
     name: "DeepSeek Coder",
-    description: "An AI coding assistant.",
+    description: "Specialized in code generation and analysis.",
     icon: <Code className="h-5 w-5" />,
+    supportsImages: false
+  },
+  {
+    id: "codellama",
+    name: "CodeLlama",
+    description: "Meta's code-specialized language model.",
+    icon: <Laptop className="h-5 w-5" />,
+    supportsImages: false
   },
 ];
 
@@ -58,6 +90,7 @@ interface ModelSelectorProps {
 const ModelSelector: React.FC<ModelSelectorProps> = ({ onSelect, selectedModel }) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(selectedModel);
+  const selectedModelData = models.find((model) => model.id === value);
 
   return (
     <Tabs defaultValue="models" className="w-[400px]">
@@ -95,8 +128,18 @@ const ModelSelector: React.FC<ModelSelectorProps> = ({ onSelect, selectedModel }
                       setOpen(false);
                     }}
                   >
-                    {model.icon}
-                    <span>{model.name}</span>
+                    <div className="flex items-center gap-2 mr-2">
+                      {model.icon}
+                      <div>
+                        <p>{model.name}</p>
+                        <p className="text-xs text-muted-foreground">{model.description}</p>
+                      </div>
+                    </div>
+                    {model.supportsImages && (
+                      <span className="text-xs bg-wisdom-primary/20 text-wisdom-dark px-2 py-0.5 rounded-full ml-auto mr-2">
+                        Images
+                      </span>
+                    )}
                     <Check
                       className={cn(
                         "ml-auto h-4 w-4",
@@ -109,6 +152,20 @@ const ModelSelector: React.FC<ModelSelectorProps> = ({ onSelect, selectedModel }
             </Command>
           </PopoverContent>
         </Popover>
+
+        {selectedModelData && (
+          <div className="text-sm">
+            <p className="font-medium flex items-center gap-2">
+              {selectedModelData.icon} {selectedModelData.name}
+            </p>
+            <p className="text-muted-foreground mt-1">{selectedModelData.description}</p>
+            {selectedModelData.supportsImages && (
+              <p className="text-xs mt-2 bg-wisdom-primary/20 text-wisdom-dark px-2 py-1 rounded-full inline-block">
+                Supports image analysis
+              </p>
+            )}
+          </div>
+        )}
       </TabsContent>
     </Tabs>
   );
