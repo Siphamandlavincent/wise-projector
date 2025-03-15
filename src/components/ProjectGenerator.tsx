@@ -107,47 +107,106 @@ const ProjectGenerator = () => {
         .filter(Boolean)
         .join(', ');
       
-      const codeTemplate = `// ${projectName} - Generated with UHLAKANIPHO AI
+      // Generate appropriate code template based on framework
+      let codeTemplate = '';
+      
+      switch(selectedFramework) {
+        case 'react':
+          codeTemplate = `// ${projectName} - Generated with UHLAKANIPHO AI
 // Framework: ${framework}
 // Features: ${featuresText || 'None'}
 
-// This is a sample code template for demonstration.
-// A real implementation would generate actual project code based on the selected options.
-
-import { createApp } from '${framework?.toLowerCase()}';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 import App from './App';
+${selectedFeatures.includes('theme') ? "import { ThemeProvider } from './theme';" : ''}
+${selectedFeatures.includes('auth') ? "import { AuthProvider } from './auth';" : ''}
+${selectedFeatures.includes('db') ? "import { DatabaseProvider } from './database';" : ''}
 
-${selectedFeatures.includes('auth') ? `
-// Authentication Setup
-import Auth from './auth';
-const authPlugin = new Auth({
-  // Auth configuration
-});
-` : ''}
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    ${selectedFeatures.includes('theme') ? '<ThemeProvider>' : ''}
+    ${selectedFeatures.includes('auth') ? '<AuthProvider>' : ''}
+    ${selectedFeatures.includes('db') ? '<DatabaseProvider>' : ''}
+    <App />
+    ${selectedFeatures.includes('db') ? '</DatabaseProvider>' : ''}
+    ${selectedFeatures.includes('auth') ? '</AuthProvider>' : ''}
+    ${selectedFeatures.includes('theme') ? '</ThemeProvider>' : ''}
+  </React.StrictMode>
+);`;
+          break;
+        case 'vue':
+          codeTemplate = `// ${projectName} - Generated with UHLAKANIPHO AI
+// Framework: ${framework}
+// Features: ${featuresText || 'None'}
 
-${selectedFeatures.includes('db') ? `
-// Database Integration
-import Database from './database';
-const db = new Database({
-  // DB configuration
-});
-` : ''}
-
-${selectedFeatures.includes('theme') ? `
-// Theming System
-import ThemeManager from './theme';
-const themeManager = new ThemeManager();
-` : ''}
+import { createApp } from 'vue';
+import App from './App.vue';
+${selectedFeatures.includes('theme') ? "import { createTheme } from './theme';" : ''}
+${selectedFeatures.includes('auth') ? "import { createAuth } from './auth';" : ''}
+${selectedFeatures.includes('db') ? "import { createDatabase } from './database';" : ''}
 
 const app = createApp(App);
 
-${selectedFeatures.map(f => `// Initialize ${features.find(feat => feat.id === f)?.name} feature`).join('\n')}
+${selectedFeatures.includes('theme') ? 'app.use(createTheme());' : ''}
+${selectedFeatures.includes('auth') ? 'app.use(createAuth());' : ''}
+${selectedFeatures.includes('db') ? 'app.use(createDatabase());' : ''}
 
-app.mount('#app');
-`;
+app.mount('#app');`;
+          break;
+        case 'next':
+          codeTemplate = `// ${projectName} - Generated with UHLAKANIPHO AI
+// Framework: ${framework}
+// Features: ${featuresText || 'None'}
+
+// pages/_app.js
+import '../styles/globals.css';
+${selectedFeatures.includes('theme') ? "import { ThemeProvider } from '../theme';" : ''}
+${selectedFeatures.includes('auth') ? "import { AuthProvider } from '../auth';" : ''}
+${selectedFeatures.includes('db') ? "import { DatabaseProvider } from '../database';" : ''}
+
+function MyApp({ Component, pageProps }) {
+  return (
+    ${selectedFeatures.includes('theme') ? '<ThemeProvider>' : ''}
+    ${selectedFeatures.includes('auth') ? '<AuthProvider>' : ''}
+    ${selectedFeatures.includes('db') ? '<DatabaseProvider>' : ''}
+    <Component {...pageProps} />
+    ${selectedFeatures.includes('db') ? '</DatabaseProvider>' : ''}
+    ${selectedFeatures.includes('auth') ? '</AuthProvider>' : ''}
+    ${selectedFeatures.includes('theme') ? '</ThemeProvider>' : ''}
+  )
+}
+
+export default MyApp;`;
+          break;
+        // Default case for other frameworks
+        default:
+          codeTemplate = `// ${projectName} - Generated with UHLAKANIPHO AI
+// Framework: ${framework}
+// Features: ${featuresText || 'None'}
+
+// This is a sample code template for demonstration purposes
+// A real implementation would generate actual ${framework} project code
+
+${selectedFeatures.map(f => `// ${features.find(feat => feat.id === f)?.name} feature integration`).join('\n')}
+
+// Main application entry point
+function initializeApp() {
+  console.log("Initializing ${projectName} with ${framework}");
+  ${selectedFeatures.map(f => `setupFeature${features.find(feat => feat.id === f)?.name.replace(/\s/g, '')}`).join(';\n  ')};
+}
+
+initializeApp();`;
+      }
       
       setGeneratedCode(codeTemplate);
       setIsGenerating(false);
+      
+      toast({
+        title: "Project generated",
+        description: `Successfully generated ${projectName} with ${framework}.`,
+      });
     }, 2500);
   };
   
@@ -167,7 +226,13 @@ app.mount('#app');
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${projectName.replace(/\s+/g, '-').toLowerCase()}.js`;
+    
+    // Set appropriate file extension based on framework
+    let fileExtension = 'js';
+    if (selectedFramework === 'vue') fileExtension = 'vue';
+    else if (selectedFramework === 'flutter') fileExtension = 'dart';
+    
+    a.download = `${projectName.replace(/\s+/g, '-').toLowerCase()}.${fileExtension}`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -212,7 +277,7 @@ app.mount('#app');
               <div className="space-y-2">
                 <Label htmlFor="framework">Framework</Label>
                 <Select value={selectedFramework} onValueChange={setSelectedFramework}>
-                  <SelectTrigger>
+                  <SelectTrigger id="framework">
                     <SelectValue placeholder="Select framework" />
                   </SelectTrigger>
                   <SelectContent>
@@ -257,7 +322,7 @@ app.mount('#app');
               <Button 
                 onClick={generateProject} 
                 disabled={isGenerating || !selectedFramework || !projectName.trim()}
-                className="w-full bg-wisdom-primary hover:bg-wisdom-primary/90"
+                className="w-full bg-wisdom-primary hover:bg-wisdom-primary/90 text-wisdom-dark font-medium"
               >
                 {isGenerating ? (
                   <>
@@ -319,7 +384,7 @@ app.mount('#app');
                 </Button>
                 <Button 
                   onClick={downloadCode}
-                  className="flex-1 bg-wisdom-secondary hover:bg-wisdom-secondary/90"
+                  className="flex-1 bg-wisdom-primary hover:bg-wisdom-primary/90 text-wisdom-dark font-medium"
                 >
                   <Download className="mr-2 h-4 w-4" />
                   Download
