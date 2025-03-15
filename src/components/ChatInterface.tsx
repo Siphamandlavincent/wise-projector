@@ -37,6 +37,7 @@ const ChatInterface = () => {
   const { toast } = useToast();
   
   const supportsImages = models.find(model => model.id === selectedModel)?.supportsImages || false;
+  const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY || localStorage.getItem('openrouter_api_key');
   
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
