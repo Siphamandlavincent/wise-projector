@@ -11,9 +11,9 @@ const Header = () => {
     <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-sm border-b">
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
-          <Avatar className="h-10 w-10 bg-wisdom-primary text-white">
+          <Avatar className="h-10 w-10">
             <AvatarFallback>U</AvatarFallback>
-            <AvatarImage src="/logo.png" alt="Logo" />
+            <AvatarImage src="https://i.postimg.cc/3NrMbdj9/Spha-Apps-Logo.png" alt="Spha Apps Logo" />
           </Avatar>
           <h1 className="text-2xl font-bold text-wisdom-dark">UHLAKANIPHO</h1>
         </div>
@@ -22,7 +22,7 @@ const Header = () => {
           <Button variant="link" className="text-wisdom-dark font-medium">Chat</Button>
           <Button variant="link" className="text-wisdom-dark font-medium">Generate Projects</Button>
           <Button variant="link" className="text-wisdom-dark font-medium">Documentation</Button>
-          <Button variant="default" className="bg-wisdom-primary hover:bg-wisdom-primary/90">Get Started</Button>
+          <Button variant="default" className="bg-wisdom-primary hover:bg-wisdom-primary/90 text-wisdom-dark">Get Started</Button>
         </nav>
         
         <Button 
@@ -41,7 +41,7 @@ const Header = () => {
             <Button variant="ghost" className="justify-start">Chat</Button>
             <Button variant="ghost" className="justify-start">Generate Projects</Button>
             <Button variant="ghost" className="justify-start">Documentation</Button>
-            <Button variant="default" className="bg-wisdom-primary hover:bg-wisdom-primary/90 mt-2">Get Started</Button>
+            <Button variant="default" className="bg-wisdom-primary hover:bg-wisdom-primary/90 text-wisdom-dark mt-2">Get Started</Button>
           </nav>
         </div>
       )}

@@ -47,7 +47,7 @@ const Index = () => {
           </div>
           
           {!apiKey && (
-            <Alert className="mb-6">
+            <Alert className="mb-6 border-wisdom-primary/50">
               <AlertCircle className="h-4 w-4" />
               <AlertTitle>API Key Required</AlertTitle>
               <AlertDescription>
@@ -59,8 +59,8 @@ const Index = () => {
           
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="grid w-full grid-cols-2 mb-8">
-              <TabsTrigger value="chat">AI Chat</TabsTrigger>
-              <TabsTrigger value="generate">Project Generation</TabsTrigger>
+              <TabsTrigger value="chat" className="data-[state=active]:bg-wisdom-primary data-[state=active]:text-wisdom-dark">AI Chat</TabsTrigger>
+              <TabsTrigger value="generate" className="data-[state=active]:bg-wisdom-primary data-[state=active]:text-wisdom-dark">Project Generation</TabsTrigger>
             </TabsList>
             
             <TabsContent value="chat" className="mt-0">

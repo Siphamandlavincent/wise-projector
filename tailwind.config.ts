@@ -64,10 +64,10 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				wisdom: {
-					primary: '#3B82F6',
+					primary: '#FFE900', // Updated to bright yellow
 					secondary: '#10B981',
 					accent: '#8B5CF6',
-					dark: '#1E293B',
+					dark: '#332421', // Updated to dark brown
 					light: '#F8FAFC'
 				}
 			},
