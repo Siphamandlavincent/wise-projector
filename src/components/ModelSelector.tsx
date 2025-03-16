@@ -3,9 +3,9 @@ import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { 
   Tabs, 
-  TabsContent, 
   TabsList, 
-  TabsTrigger 
+  TabsTrigger,
+  TabsContent
 } from "@/components/ui/tabs";
 import { Check, ChevronsUpDown, Sparkles, Code, MessageSquare, Terminal, Laptop, Bot } from "lucide-react";
 import {
