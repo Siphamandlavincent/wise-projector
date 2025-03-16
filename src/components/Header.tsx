@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,10 +20,12 @@ const Header = () => {
         </div>
         
         <nav className="hidden md:flex items-center gap-6">
-          <Button variant="link" className="text-wisdom-dark font-medium">Chat</Button>
-          <Button variant="link" className="text-wisdom-dark font-medium">Generate Projects</Button>
+          <Button variant="link" className="text-wisdom-dark font-medium" onClick={() => window.location.hash = 'chat'}>Chat</Button>
+          <Button variant="link" className="text-wisdom-dark font-medium" onClick={() => window.location.hash = 'generate'}>Generate Projects</Button>
           <Button variant="link" className="text-wisdom-dark font-medium">Documentation</Button>
-          <Button variant="default" className="bg-wisdom-primary hover:bg-wisdom-primary/90 text-wisdom-dark">Get Started</Button>
+          <Link to="/">
+            <Button variant="default" className="bg-wisdom-primary hover:bg-wisdom-primary/90 text-wisdom-dark">Get Started</Button>
+          </Link>
         </nav>
         
         <Button 
@@ -38,10 +41,12 @@ const Header = () => {
       {isMenuOpen && (
         <div className="container md:hidden pb-4">
           <nav className="flex flex-col gap-2">
-            <Button variant="ghost" className="justify-start">Chat</Button>
-            <Button variant="ghost" className="justify-start">Generate Projects</Button>
+            <Button variant="ghost" className="justify-start" onClick={() => window.location.hash = 'chat'}>Chat</Button>
+            <Button variant="ghost" className="justify-start" onClick={() => window.location.hash = 'generate'}>Generate Projects</Button>
             <Button variant="ghost" className="justify-start">Documentation</Button>
-            <Button variant="default" className="bg-wisdom-primary hover:bg-wisdom-primary/90 text-wisdom-dark mt-2">Get Started</Button>
+            <Link to="/">
+              <Button variant="default" className="bg-wisdom-primary hover:bg-wisdom-primary/90 text-wisdom-dark mt-2 w-full">Get Started</Button>
+            </Link>
           </nav>
         </div>
       )}

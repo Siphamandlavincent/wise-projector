@@ -22,6 +22,23 @@ const Index = () => {
     if (storedKey) {
       setApiKey(storedKey);
     }
+
+    // Check for hash in URL to set active tab
+    const hash = window.location.hash.replace('#', '');
+    if (hash === 'chat' || hash === 'generate') {
+      setActiveTab(hash);
+    }
+
+    // Listen for hash changes
+    const handleHashChange = () => {
+      const newHash = window.location.hash.replace('#', '');
+      if (newHash === 'chat' || newHash === 'generate') {
+        setActiveTab(newHash);
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
   
   return (
@@ -57,7 +74,10 @@ const Index = () => {
             </Alert>
           )}
           
-          <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <Tabs value={activeTab} onValueChange={(value) => {
+            setActiveTab(value);
+            window.location.hash = value;
+          }}>
             <TabsList className="grid w-full grid-cols-2 mb-8">
               <TabsTrigger value="chat" className="data-[state=active]:bg-wisdom-primary data-[state=active]:text-wisdom-dark">AI Chat</TabsTrigger>
               <TabsTrigger value="generate" className="data-[state=active]:bg-wisdom-primary data-[state=active]:text-wisdom-dark">Project Generation</TabsTrigger>
