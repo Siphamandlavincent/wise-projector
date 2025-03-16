@@ -109,10 +109,12 @@ const ProjectGenerator = () => {
       
       // Generate appropriate code template based on framework
       let codeTemplate = '';
+      const primaryColor = import.meta.env.VITE_PRIMARY_COLOR || '#FFE900';
+      const darkColor = import.meta.env.VITE_DARK_COLOR || '#332421';
       
       switch(selectedFramework) {
         case 'react':
-          codeTemplate = `// ${projectName} - Generated with UHLAKANIPHO AI
+          codeTemplate = `// ${projectName} - Generated with ${import.meta.env.VITE_SITE_NAME || 'UHLAKANIPHO'} AI
 // Framework: ${framework}
 // Features: ${featuresText || 'None'}
 
@@ -122,6 +124,9 @@ import App from './App';
 ${selectedFeatures.includes('theme') ? "import { ThemeProvider } from './theme';" : ''}
 ${selectedFeatures.includes('auth') ? "import { AuthProvider } from './auth';" : ''}
 ${selectedFeatures.includes('db') ? "import { DatabaseProvider } from './database';" : ''}
+
+// Primary color: ${primaryColor}
+// Dark color: ${darkColor}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -137,7 +142,7 @@ root.render(
 );`;
           break;
         case 'vue':
-          codeTemplate = `// ${projectName} - Generated with UHLAKANIPHO AI
+          codeTemplate = `// ${projectName} - Generated with ${import.meta.env.VITE_SITE_NAME || 'UHLAKANIPHO'} AI
 // Framework: ${framework}
 // Features: ${featuresText || 'None'}
 
@@ -146,6 +151,9 @@ import App from './App.vue';
 ${selectedFeatures.includes('theme') ? "import { createTheme } from './theme';" : ''}
 ${selectedFeatures.includes('auth') ? "import { createAuth } from './auth';" : ''}
 ${selectedFeatures.includes('db') ? "import { createDatabase } from './database';" : ''}
+
+// Primary color: ${primaryColor}
+// Dark color: ${darkColor}
 
 const app = createApp(App);
 
@@ -156,7 +164,7 @@ ${selectedFeatures.includes('db') ? 'app.use(createDatabase());' : ''}
 app.mount('#app');`;
           break;
         case 'next':
-          codeTemplate = `// ${projectName} - Generated with UHLAKANIPHO AI
+          codeTemplate = `// ${projectName} - Generated with ${import.meta.env.VITE_SITE_NAME || 'UHLAKANIPHO'} AI
 // Framework: ${framework}
 // Features: ${featuresText || 'None'}
 
@@ -165,6 +173,9 @@ import '../styles/globals.css';
 ${selectedFeatures.includes('theme') ? "import { ThemeProvider } from '../theme';" : ''}
 ${selectedFeatures.includes('auth') ? "import { AuthProvider } from '../auth';" : ''}
 ${selectedFeatures.includes('db') ? "import { DatabaseProvider } from '../database';" : ''}
+
+// Primary color: ${primaryColor}
+// Dark color: ${darkColor}
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -180,14 +191,193 @@ function MyApp({ Component, pageProps }) {
 
 export default MyApp;`;
           break;
-        // Default case for other frameworks
+        case 'flutter':
+          codeTemplate = `// ${projectName} - Generated with ${import.meta.env.VITE_SITE_NAME || 'UHLAKANIPHO'} AI
+// Framework: ${framework}
+// Features: ${featuresText || 'None'}
+
+import 'package:flutter/material.dart';
+
+// Primary color: ${primaryColor}
+// Dark color: ${darkColor}
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: '${projectName}',
+      theme: ThemeData(
+        primaryColor: Color(0x${primaryColor.replace('#', 'FF')}),
+        scaffoldBackgroundColor: Colors.white,
+        useMaterial3: true,
+      ),
+      darkTheme: ${selectedFeatures.includes('theme') ? `ThemeData(
+        primaryColor: Color(0x${primaryColor.replace('#', 'FF')}),
+        scaffoldBackgroundColor: Color(0x${darkColor.replace('#', 'FF')}),
+        useMaterial3: true,
+      )` : 'null'},
+      themeMode: ${selectedFeatures.includes('theme') ? 'ThemeMode.system' : 'ThemeMode.light'},
+      home: const MyHomePage(title: '${projectName} Home Page'),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+        backgroundColor: Theme.of(context).primaryColor,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'Welcome to your new Flutter app!',
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}`;
+          break;
+        case 'react-native':
+          codeTemplate = `// ${projectName} - Generated with ${import.meta.env.VITE_SITE_NAME || 'UHLAKANIPHO'} AI
+// Framework: ${framework}
+// Features: ${featuresText || 'None'}
+
+import React from 'react';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+
+// Primary color: ${primaryColor}
+// Dark color: ${darkColor}
+
+const App = () => {
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>${projectName}</Text>
+      </View>
+      <View style={styles.content}>
+        <Text style={styles.welcomeText}>Welcome to your new React Native app!</Text>
+      </View>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
+  header: {
+    backgroundColor: '${primaryColor}',
+    padding: 20,
+    alignItems: 'center',
+  },
+  headerText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '${darkColor}',
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  welcomeText: {
+    fontSize: 18,
+    textAlign: 'center',
+  },
+});
+
+export default App;`;
+          break;
+        case 'electron':
+          codeTemplate = `// ${projectName} - Generated with ${import.meta.env.VITE_SITE_NAME || 'UHLAKANIPHO'} AI
+// Framework: ${framework}
+// Features: ${featuresText || 'None'}
+
+// main.js
+const { app, BrowserWindow } = require('electron')
+const path = require('path')
+
+// Primary color: ${primaryColor}
+// Dark color: ${darkColor}
+
+function createWindow () {
+  const mainWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
+      nodeIntegration: false
+    }
+  })
+
+  // Load index.html
+  mainWindow.loadFile('index.html')
+  
+  ${selectedFeatures.includes('db') ? "// Database setup\nconst db = require('./database.js');" : ''}
+  ${selectedFeatures.includes('auth') ? "// Auth setup\nconst auth = require('./auth.js');" : ''}
+}
+
+app.whenReady().then(() => {
+  createWindow()
+
+  app.on('activate', function () {
+    if (BrowserWindow.getAllWindows().length === 0) createWindow()
+  })
+})
+
+app.on('window-all-closed', function () {
+  if (process.platform !== 'darwin') app.quit()
+})
+
+// preload.js
+// Expose protected methods that allow the renderer process to use
+// the ipcRenderer without exposing the entire object
+window.addEventListener('DOMContentLoaded', () => {
+  const replaceText = (selector, text) => {
+    const element = document.getElementById(selector)
+    if (element) element.innerText = text
+  }
+
+  for (const type of ['chrome', 'node', 'electron']) {
+    replaceText(\`\${type}-version\`, process.versions[type])
+  }
+})`;
+          break;
         default:
-          codeTemplate = `// ${projectName} - Generated with UHLAKANIPHO AI
+          codeTemplate = `// ${projectName} - Generated with ${import.meta.env.VITE_SITE_NAME || 'UHLAKANIPHO'} AI
 // Framework: ${framework}
 // Features: ${featuresText || 'None'}
 
 // This is a sample code template for demonstration purposes
 // A real implementation would generate actual ${framework} project code
+
+// Primary color: ${primaryColor}
+// Dark color: ${darkColor}
 
 ${selectedFeatures.map(f => `// ${features.find(feat => feat.id === f)?.name} feature integration`).join('\n')}
 
@@ -231,6 +421,9 @@ initializeApp();`;
     let fileExtension = 'js';
     if (selectedFramework === 'vue') fileExtension = 'vue';
     else if (selectedFramework === 'flutter') fileExtension = 'dart';
+    else if (selectedFramework === 'react-native') fileExtension = 'jsx';
+    else if (selectedFramework === 'next') fileExtension = 'jsx';
+    else if (selectedFramework === 'react') fileExtension = 'jsx';
     
     a.download = `${projectName.replace(/\s+/g, '-').toLowerCase()}.${fileExtension}`;
     document.body.appendChild(a);
@@ -277,7 +470,7 @@ initializeApp();`;
               <div className="space-y-2">
                 <Label htmlFor="framework">Framework</Label>
                 <Select value={selectedFramework} onValueChange={setSelectedFramework}>
-                  <SelectTrigger id="framework">
+                  <SelectTrigger id="framework" className="w-full">
                     <SelectValue placeholder="Select framework" />
                   </SelectTrigger>
                   <SelectContent>
