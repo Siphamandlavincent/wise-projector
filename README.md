@@ -1,69 +1,175 @@
-# Welcome to your Lovable project
 
-## Project info
+# UHLAKANIPHO AI Assistant
 
-**URL**: https://lovable.dev/projects/8319b559-31eb-4290-82f9-8a776a279649
+![UHLAKANIPHO Logo](https://i.postimg.cc/3NrMbdj9/Spha-Apps-Logo.png)
 
-## How can I edit this code?
+## Overview
 
-There are several ways of editing your application.
+UHLAKANIPHO is a powerful AI assistant application that provides wisdom and project generation capabilities. The name "UHLAKANIPHO" means "Wisdom" in the Zulu language, reflecting the app's purpose to deliver intelligent insights and assistance.
 
-**Use Lovable**
+## Features
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/8319b559-31eb-4290-82f9-8a776a279649) and start prompting.
+- **AI Chat Interface**: Communicate with various AI models
+- **Project Generation**: Generate project code and ideas
+- **Model Selection**: Choose from a variety of AI models with different capabilities
+- **Image Support**: Some models support image analysis and processing
 
-Changes made via Lovable will be committed automatically to this repo.
+## AI Models Integrated
 
-**Use your preferred IDE**
+The application integrates with multiple AI models through OpenRouter API:
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+| Model | Description | Image Support |
+|-------|-------------|--------------|
+| Gemini | Google's most capable multimodal model | Yes |
+| Llama 2 | Meta's powerful open-source language model | No |
+| Mistral | Fast and efficient language model | No |
+| Gemma | Google's lightweight and efficient model | No |
+| DeepSeek Chat | Advanced conversation model | No |
+| DeepSeek Coder | Specialized in code generation and analysis | No |
+| CodeLlama | Meta's code-specialized language model | No |
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Additional models configured in the environment:
+- DeepSeek R1
+- DeepSeek Distill
+- Gemini Experimental
+- Llama 3.3
+- OpenChat
 
-Follow these steps:
+## Theme Colors
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+The application uses a custom theme with the following color codes:
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+```css
+/* Primary Colors */
+--wisdom-primary: #FFE900; /* Bright Yellow */
+--wisdom-dark: #332421;    /* Dark Brown */
 
-# Step 3: Install the necessary dependencies.
-npm i
+/* Additional Colors */
+--wisdom-secondary: #10B981;
+--wisdom-accent: #8B5CF6;
+--wisdom-light: #F8FAFC;
+```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+## Tech Stack
+
+- **Framework**: React with TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS
+- **UI Components**: shadcn/ui
+- **Routing**: React Router
+- **Icons**: Lucide React
+
+## Environment Variables
+
+The application requires the following environment variables:
+
+```
+# OpenRouter API Key (for accessing multiple models)
+OPENROUTER_API_KEY=your_openrouter_api_key
+
+# Site Configuration
+SITE_NAME=UHLAKANIPHO AI Agent
+
+# Theme Colors
+VITE_PRIMARY_COLOR=#FFE900
+VITE_DARK_COLOR=#332421
+VITE_SITE_NAME=UHLAKANIPHO
+```
+
+Additional API keys for specific models can be added if you want to use them directly.
+
+## Step-by-Step Setup Guide
+
+1. **Clone the repository**
+
+```bash
+git clone <repository-url>
+cd uhlakanipho-ai
+```
+
+2. **Install dependencies**
+
+```bash
+npm install
+```
+
+3. **Create the environment file**
+
+Create a `.env` file in the root directory with the required API keys and configurations as shown above.
+
+4. **Run the development server**
+
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+5. **Building for production**
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+npm run build
+```
 
-**Use GitHub Codespaces**
+## Project Structure
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```
+src/
+├── components/
+│   ├── ui/             # shadcn UI components
+│   ├── ChatInterface.tsx    # AI chat implementation
+│   ├── Header.tsx           # App header
+│   ├── Footer.tsx           # App footer
+│   ├── ProjectGenerator.tsx # Project generation interface
+│   ├── ApiKeyForm.tsx       # API key input form
+│   └── ModelSelector.tsx    # AI model selector
+├── pages/
+│   ├── Index.tsx       # Main page
+│   └── NotFound.tsx    # 404 page
+├── hooks/              # Custom React hooks
+├── lib/                # Utility functions
+├── App.tsx             # Main application component
+└── main.tsx            # Application entry point
+```
 
-## What technologies are used for this project?
+## Key Components
 
-This project is built with .
+### ChatInterface
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+The chat interface provides a conversational UI to interact with various AI models. It supports:
+- Text messaging
+- Image uploads (for models with image support)
+- Model switching
+- Message history
 
-## How can I deploy this project?
+### ModelSelector
 
-Simply open [Lovable](https://lovable.dev/projects/8319b559-31eb-4290-82f9-8a776a279649) and click on Share -> Publish.
+Allows users to select from various AI models with different capabilities, displaying relevant information about each model.
 
-## I want to use a custom domain - is that possible?
+### ProjectGenerator
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+Enables users to generate project ideas and code based on their requirements.
+
+## Dependencies
+
+This project uses the following key dependencies:
+
+- React & React DOM
+- React Router DOM
+- shadcn/ui (built on Radix UI primitives)
+- Tailwind CSS & related plugins
+- Lucide React (for icons)
+- React Hook Form
+- Zod (for validation)
+- Tanstack React Query
+- Recharts (for charts)
+
+## Logo and Branding
+
+The logo is sourced from: https://i.postimg.cc/3NrMbdj9/Spha-Apps-Logo.png
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Credits
+
+Developed as a demonstration of integrating multiple AI models through a unified interface.
